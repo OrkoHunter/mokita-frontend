@@ -57,7 +57,7 @@
 						</button>
 					</div>
 					<div class="text-center p-t-136">
-						<a style="cursor: pointer;" class="txt2" onclick='showSignup()'>
+						<a style="cursor: pointer;" class="txt2" onclick='toggleView()'>
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
@@ -66,7 +66,7 @@
 
 				<form id="signup" class="login100-form validate-form">
 					<span class="login100-form-title">
-						Sign Up
+						Create Account
 					</span>
 
 					<div class="wrap-input100">
@@ -88,6 +88,7 @@
 					<div class="wrap-input100">
 						You are an
 						<select name="type_of_account" class="input100">
+							<option disabled="disabled" ></option> <---trick
 							<option value="organization">Organization</option>
 							<option value="individual">Individual</option>
 						</select>
@@ -104,12 +105,12 @@
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Login
+							Sign Up
 						</button>
 					</div>
 					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
-							Create your Account
+						<a style="cursor: pointer;" id="lblLogin" onclick="toggleView()" class="txt2">
+							Already have account? Log in.
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
@@ -140,11 +141,12 @@
 	<script src="/static/js/main.js"></script>
 
 	<script type="text/javascript">
-		$('#signup').hide();
+		$('#signup').toggle();
 
-		var showSignup = function() {
-			$('#login').hide();
-			$('#signup').show();
+		var toggleView = function() {
+			$('#login').toggle();
+			$('#signup').toggle();
+			$('#lblCreateAccount').toggle();
 		}
 
 	</script>
