@@ -41,5 +41,11 @@ def main():
         return render_template('main.html')
 
 
-
 app.run(host='0.0.0.0', port=8080)
+
+'''
+ - Blockchain event
+    - http://localhost:8080/
+    - https://github.com/creativetimofficial/light-bootstrap-dashboard
+    - https://www.mykgp.com/
+'''
