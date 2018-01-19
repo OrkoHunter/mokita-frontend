@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import requests
 from flask import Flask, render_template, session, request
 # from flask_session import Session
@@ -20,13 +21,41 @@ app.debug = APP_DEBUG
 def do_admin_login():
     username = request.form['username']
     password = request.form['password']
-    print(username, password)
     url = "http://localhost:3000/api/Identity_u/{}${}".format(username, password)
     r = requests.get(url)
     if r.status_code == 200:
         session['logged_in'] = True
     else:
         print('Wrong password!')
+    return main()
+
+
+@app.route('/signup', methods=['POST'])
+def do_admin_signup():
+    username = request.form['username']
+    password = request.form['password']
+    name = request.form['name']
+    type_of_user = request.form['type_of_user']
+    email = request.form['email']
+    dollar_class = 'org.acme.biznet.Identity_u'
+
+    h = hashlib.sha1()
+    h.update(password.encode('utf-8'))
+    idenID = username + '$' + h.hexdigest()
+
+    url = "http://localhost:3000/api/Identity_u"
+    data = {
+        'idenID': idenID,
+        'name': name,
+        'type': type_of_user,
+        'email': email,
+        '$class': 'org.acme.biznet.Identity_u'
+    }
+
+    r = requests.post(url, data=data)
+    if r.status_code == 200:
+        session['logged_in'] = True
+
     return main()
 
 
