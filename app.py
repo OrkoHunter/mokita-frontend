@@ -45,17 +45,21 @@ def do_admin_signup():
 
     url = "http://localhost:3000/api/Identity_u"
     data = {
-        'idenID': idenID,
+        'idenId': idenID,
         'name': name,
         'type': type_of_user,
         'email': email,
         '$class': 'org.acme.biznet.Identity_u'
     }
-
-    r = requests.post(url, data=data)
+    import os
+    os.environ['NO_PROXY'] = 'localhost'
+    headers = {'content-type': 'application/json'}
+    print (data)
+    import json
+    r = requests.post(url, data=json.dumps(data), headers=headers)
+    print (r)
     if r.status_code == 200:
         session['logged_in'] = True
-
     return main()
 
 
@@ -69,8 +73,10 @@ def logout():
 def main():
     # return render_template("dashboard.html")
     if session.get('logged_in', False):
+        print ('sgjbjsdbvjsdbvj')
         return render_template('dashboard.html')
     else:
+        print ('skdjbv')
         return render_template('main.html')
 
 
