@@ -182,21 +182,15 @@
                             <span><i style='margin-right: 20px' class="fa fa-check"></i><span>Approved</span></span>
                         </div>
                         <div class="row approved">
+                        {% for row in verified %}
                             <div class="card col-md-12">
-                                <div class="card-header"><b>This is a job Title</b></div>
-                                <div class="card-body">This is a job description</div>
+                                <div class="card-header"><b>{{row['jobTitle']}}</b></div>
+                                <div class="card-body">{{row['description']}}</div>
                                 <div style="display: flex; justify-content: flex-end;">
-                                    <div class="card-footer"><i class="fa fa-user"></i> Username</div>
+                                    <div class="card-footer"><i class="fa fa-user"></i> {{row['owner_id']}}</div>
                                 </div>
                             </div>
-                            <div class="card col-md-12">
-                                <div class="card-header"><b>This is a job Title</b></div>
-                                <div class="card-body">This is a job description</div>
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <div class="card-footer"><i class="fa fa-user"></i> Username</div>
-                                </div>
-                            </div>
-
+                        {% endfor %}
 
                         </div>
                     </div>
@@ -205,28 +199,15 @@
                             <span><i style='margin-right: 20px' class="fa fa-clock-o"></i><span>Pending</span></span>
                         </div>
                         <div class="row pending">
+                            {% for row in unverified %}
                             <div class="card col-md-12">
-                                <div class="card-header"><b>This is a job Title</b></div>
-                                <div class="card-body">This is a job description</div>
+                                <div class="card-header"><b>{{row['jobTitle']}}</b></div>
+                                <div class="card-body">{{row['description']}}</div>
                                 <div style="display: flex; justify-content: flex-end;">
-                                    <div class="card-footer"><i class="fa fa-user"></i> Username</div>
+                                    <div class="card-footer"><i class="fa fa-user"></i> {{row['owner_id'].split('$')[0]}}</div>
                                 </div>
                             </div>
-                            <div class="card col-md-12">
-                                <div class="card-header"><b>This is a job Title</b></div>
-                                <div class="card-body">This is a job description</div>
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <div class="card-footer"><i class="fa fa-user"></i> Username</div>
-                                </div>
-                            </div>
-                            <div class="card col-md-12">
-                                <div class="card-header"><b>This is a job Title</b></div>
-                                <div class="card-body">This is a job description</div>
-                                <div style="display: flex; justify-content: flex-end;">
-                                    <div class="card-footer"><i class="fa fa-user"></i> Username</div>
-                                </div>
-                            </div>
-
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

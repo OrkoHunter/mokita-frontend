@@ -142,6 +142,26 @@ def create():
 
 @app.route("/tracks")
 def tracks():
-    return render_template("tracks.html")
+    url = "http://localhost:3000/api/Tracks/"
+    r = requests.get(url)
+    tot_data = r.json()
+    verified_list = []
+    unverified_list = []
+    if(config['is_org'] == True):
+        for row in tot_data:
+            if(row['verifier'] == session['id']):
+                if(row['isVerified'] == 'Unverified'):
+                    unverified_list.append(row)
+                else:
+                    verified_list.append(row)
+    else:
+        for row in tot_data:
+            if(row['owner_id'] == session['id']):
+                if(row['isVerified'] == 'Unverified'):
+                    unverified_list.append(row)
+                else:
+                    verified_list.append(row)
+    data = {'unverified':unverified_list , 'verified':verified_list}
+    return render_template("tracks.html", **data)
 
 app.run(host='0.0.0.0', port=8081)
