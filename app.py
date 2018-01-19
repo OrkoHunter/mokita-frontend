@@ -37,7 +37,7 @@ def do_admin_login():
             config['is_org'] = True
     else:
         print('Wrong password!')
-    return main()
+    return redirect_dest('/')
 
 def redirect_dest(fallback):
     dest = request.args.get('next')
@@ -87,12 +87,33 @@ def logout():
     return redirect_dest("/")
 
 
+@app.route("/verify", methods=["POST"])
+def verify():
+    verified = "Verified"
+    if request.form['remarks'] == '1':
+        verified = "Wrong"
+    data = {
+      "$class": "org.acme.biznet.VerifyContract",
+      "track": "resource:org.acme.biznet.Tracks#"+request.form['track_id'],
+      "verify_remarks": request.form['remarks'],
+      "isVerified": verified
+    }
+    url = "http://localhost:3000/api/VerifyContract"
+    headers = {'content-type': 'application/json'}
+    r = requests.post(url, data=json.dumps(data), headers=headers)
+    if r.status_code == 200:
+        print('done')
+    else:
+        print ('some error TODO')
+    print (data)
+    return redirect_dest('/tracks')
+
 @app.route("/")
 def main():
     # return render_template("dashboard.html")
     if session.get('logged_in', False):
         print ('sgjbjsdbvjsdbvj')
-        return render_template('dashboard.html')
+        return render_template('dashboard.html', session_id=session['id'])
     else:
         print ('skdjbv')
         return render_template('main.html')
@@ -134,7 +155,7 @@ def create():
     for row in tot_data:
         if(row['type'] == 'ORG'):
             org_list.append([row['name'], row['idenId']])
-    data ={'user' : user_data['name'], 'email' : user_data['email'], 'org_list' : org_list}
+    data ={'user' : user_data['name'], 'email' : user_data['email'], 'org_list' : org_list, 'is_org':config['is_org']}
     return render_template("create-track.html", **data)
 
 
@@ -161,7 +182,7 @@ def tracks():
                     unverified_list.append(row)
                 else:
                     verified_list.append(row)
-    data = {'unverified':unverified_list , 'verified':verified_list}
+    data = {'unverified':unverified_list , 'verified':verified_list, 'is_org':config['is_org']}
     return render_template("tracks.html", **data)
 
 app.run(host='0.0.0.0', port=8081)

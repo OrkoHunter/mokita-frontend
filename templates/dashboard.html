@@ -5,7 +5,7 @@
   <link rel="icon" type="image/png" href="/static/assets/img/favicon.ico">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-  <title>Dashboard | $APPNAME</title>
+  <title>Dashboard | Mokita</title>
 
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -46,17 +46,11 @@
       <div class="sidebar-wrapper">
             <div class="logo">
                 <a class="simple-text">
-                    $APPNAME
+                    @{{ session_id.split('$')[0] }} | Mokita
                 </a>
             </div>
 
             <ul class="nav">
-                <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
                 <li>
                     <a href="/create">
                         <i class="pe-7s-plus"></i>
@@ -64,13 +58,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/tracks">
                         <i class="pe-7s-note2"></i>
                         <p>Tracks List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/cv">
                         <i class="pe-7s-id"></i>
                         <p>Generate CV</p>
                     </a>
@@ -197,7 +191,7 @@
                     </ul>
                 </nav>
                 <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">$APPNAME</a>, made to empower blockchain
+                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Mokita</a>, made to empower blockchain
                 </p>
             </div>
         </footer>
@@ -225,18 +219,7 @@
   <script src="/static/assets/js/demo.js"></script>
 
   <script type="text/javascript">
-      $(document).ready(function(){
 
-          // $.notify({
-          //     icon: 'pe-7s-gift',
-          //     message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
-          //   },{
-          //       type: 'info',
-          //       timer: 4000
-          //   });
-
-      });
   </script>
 
 </html>
