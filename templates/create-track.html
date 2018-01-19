@@ -162,18 +162,18 @@
                                 <h4 class="title">New Track</h4>
                             </div>
                             <div class="content">
-                                <form>
+                                <form id="trackform" onsubmit="event.preventDefault(); create_track(trackform);">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" class="form-control" disabled placeholder="$USERNAME" value="$USERNAME">
+                                                <input type="text" class="form-control" disabled placeholder="{{user}}" value="{{user}}">
                                             </div>
                                         </div>
                                         <div class="col-md-7">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control" disabled placeholder="$EMAIL">
+                                                <input type="email" class="form-control" disabled placeholder="{{email}}">
                                             </div>
                                         </div>
                                     </div>
@@ -183,8 +183,9 @@
                                             <div class="form-group">
                                                 <label for="organization">Choose the Organization</label>
                                                 <select name="organization">
-                                                    <option value="$ORG1">$ORG1</option>
-                                                    <option value="$ORG2">$ORG2</option>
+                                                {% for org in org_list %}
+                                                    <option value="{{ org[1] }}" SELECTED>{{ org[0] }}</option>
+                                                {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
@@ -194,7 +195,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Job Title</label>
-                                                <input type="text" class="form-control" placeholder="e.g. Software Engineering Intern" value="">
+                                                <input type="text" name="job_title" class="form-control" placeholder="e.g. Software Engineering Intern" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +204,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike"></textarea>
+                                                <textarea rows="5" name="job_desc" class="form-control" placeholder="Here can be your description" value="Mike"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -283,6 +284,25 @@
           //   });
 
       });
+        var create_track = function(form) {
+        var data = new FormData()
+        var verifier = $('select[name=organization]').val()
+        var job_title = $('input[name=job_title]').val()
+        var job_desc = $('textarea[name=job_desc]').val()
+
+        data.append('verifier', verifier)
+        data.append('job_title', job_title)
+        data.append('job_desc', job_desc)
+
+        var url = 'http://localhost:8081/create_track_submit'
+
+        var request = new XMLHttpRequest()
+        request.open("POST", url , true)
+        request.send(data)
+    }
+
+
+
   </script>
 
 </html>
