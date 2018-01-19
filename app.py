@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, request
 # from flask_session import Session
 
 
@@ -18,10 +18,15 @@ app.debug = APP_DEBUG
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+    username = request.form['username']
+    password = request.form['password']
+    print(username, password)
+    url = "http://localhost:3000/api/Identity_u/{}${}".format(username, password)
+    r = requests.get(url)
+    if r.status_code == 200:
         session['logged_in'] = True
     else:
-        print('wrong password!')
+        print('Wrong password!')
     return main()
 
 
@@ -33,17 +38,15 @@ def logout():
 
 @app.route("/")
 def main():
+    # return render_template("dashboard.html")
     if session.get('logged_in', False):
-        return render_template('home.html')
+        return render_template('dashboard.html')
     else:
         return render_template('main.html')
 
 
-app.run(host='0.0.0.0', port=8081)
+@app.route("/create")
+def create():
+    return render_template("create-track.html")
 
-'''
- - Blockchain event
-    - http://localhost:8080/
-    - https://github.com/creativetimofficial/light-bootstrap-dashboard
-    - https://www.mykgp.com/
-'''
+app.run(host='0.0.0.0', port=8081)
