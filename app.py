@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import hashlib
 import requests
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, redirect
 # from flask_session import Session
 
+import json
+import os
+os.environ['NO_PROXY'] = 'localhost'
 
 APP_SECRET_KEY = 'blockchain'
 APP_CONFIG_SESSION_TYPE = 'filesystem'
@@ -21,13 +24,24 @@ app.debug = APP_DEBUG
 def do_admin_login():
     username = request.form['username']
     password = request.form['password']
-    url = "http://localhost:3000/api/Identity_u/{}${}".format(username, password)
+    h = hashlib.sha1()
+    h.update(password.encode('utf-8'))
+    idenID = username + '$' + h.hexdigest()
+    url = "http://localhost:3000/api/Identity_u/"+idenID
     r = requests.get(url)
     if r.status_code == 200:
         session['logged_in'] = True
     else:
         print('Wrong password!')
     return main()
+
+def redirect_dest(fallback):
+    dest = request.args.get('next')
+    try:
+        dest_url = url_for(dest)
+    except:
+        return redirect(fallback)
+    return redirect(dest_url)
 
 
 @app.route('/signup', methods=['POST'])
@@ -51,22 +65,20 @@ def do_admin_signup():
         'email': email,
         '$class': 'org.acme.biznet.Identity_u'
     }
-    import os
-    os.environ['NO_PROXY'] = 'localhost'
     headers = {'content-type': 'application/json'}
-    print (data)
-    import json
+    # print (data)
     r = requests.post(url, data=json.dumps(data), headers=headers)
     print (r)
     if r.status_code == 200:
         session['logged_in'] = True
-    return main()
+    return redirect_dest("/")
 
 
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
-    return main()
+    print ('here in logout')
+    return redirect_dest("/")
 
 
 @app.route("/")
