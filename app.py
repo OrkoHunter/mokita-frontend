@@ -137,4 +137,11 @@ def create():
     data ={'user' : user_data['name'], 'email' : user_data['email'], 'org_list' : org_list}
     return render_template("create-track.html", **data)
 
+
+
+
+@app.route("/tracks")
+def tracks():
+    return render_template("tracks.html")
+
 app.run(host='0.0.0.0', port=8081)
