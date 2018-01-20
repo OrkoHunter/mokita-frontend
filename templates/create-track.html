@@ -76,25 +76,19 @@
 
             <ul class="nav">
                 <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
-                <li>
                     <a href="/create">
                         <i class="pe-7s-plus"></i>
                         <p>Create Track</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/tracks">
                         <i class="pe-7s-note2"></i>
                         <p>Tracks List</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/cv">
                         <i class="pe-7s-id"></i>
                         <p>Generate CV</p>
                     </a>
@@ -102,7 +96,7 @@
                 <li>
                     <a href="#">
                         <i class="pe-7s-user"></i>
-                        <p>Profile</p>
+                        <p>Authors</p>
                     </a>
                 </li>
 <!--                 <li class="active-pro">
@@ -208,6 +202,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Private Key</label>
+                                                <textarea rows="5" name="job_desc" class="form-control" placeholder="Your private key" value="Your private key"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Create Track</button>
                                     <div class="clearfix"></div>
@@ -299,6 +301,16 @@
         var request = new XMLHttpRequest()
         request.open("POST", url , true)
         request.send(data)
+
+        document.getElementById("trackform").reset();
+        $.notify({
+                icon: 'fa fa-check',
+                message: "Track created successfully!"
+            },{
+                type: 'success',
+                timer: 500,
+                delay: 2000
+            });
     }
 
 

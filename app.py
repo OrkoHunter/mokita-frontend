@@ -183,11 +183,35 @@ def tracks():
                 else:
                     verified_list.append(row)
     data = {'unverified':unverified_list , 'verified':verified_list, 'is_org':config['is_org']}
+    print (tot_data, unverified_list, verified_list)
     return render_template("tracks.html", **data)
 
 
 @app.route("/cv")
 def cv():
-    return render_template("cv.html")
+    url = "http://localhost:3000/api/Tracks/"
+    r = requests.get(url)
+    tot_data = r.json()
+    verified_list = []
+    unverified_list = []
+    if(config['is_org'] == True):
+        for row in tot_data:
+            if(row['verifier'] == session['id']):
+                if(row['isVerified'] == 'Unverified'):
+                    unverified_list.append(row)
+                else:
+                    verified_list.append(row)
+    else:
+        for row in tot_data:
+            if(row['owner_id'] == session['id']):
+                if(row['isVerified'] == 'Unverified'):
+                    unverified_list.append(row)
+                else:
+                    verified_list.append(row)
+    url = "http://localhost:3000/api/Identity_u/"+session['id']
+    r = requests.get(url)
+    data_user = r.json()
+    data = {'unverified':unverified_list , 'verified':verified_list, 'is_org':config['is_org'], 'email':data_user['email'], 'name':data_user['name']}
+    return render_template("cv.html", **data)
 
 app.run(host='0.0.0.0', port=8081)
