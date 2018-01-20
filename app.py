@@ -185,4 +185,9 @@ def tracks():
     data = {'unverified':unverified_list , 'verified':verified_list, 'is_org':config['is_org']}
     return render_template("tracks.html", **data)
 
+
+@app.route("/cv")
+def cv():
+    return render_template("cv.html")
+
 app.run(host='0.0.0.0', port=8081)
